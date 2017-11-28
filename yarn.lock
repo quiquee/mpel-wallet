@@ -62,17 +62,17 @@
   dependencies:
     tslib "^1.7.1"
 
-"@ionic-native/core@4.4.0":
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/@ionic-native/core/-/core-4.4.0.tgz#fb0f071543bd2725d858f5a0f5c20adbece20df4"
+"@ionic-native/core@4.4.2":
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/@ionic-native/core/-/core-4.4.2.tgz#867872b00399fc20f4f4ebe19fc303cb9f7677d4"
 
-"@ionic-native/splash-screen@4.4.0":
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/@ionic-native/splash-screen/-/splash-screen-4.4.0.tgz#81ed723d7fd3f0d643072b5461fa0c32dcc330b1"
+"@ionic-native/splash-screen@4.4.2":
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/@ionic-native/splash-screen/-/splash-screen-4.4.2.tgz#51bb5b005743e8d62b4e574b568e2ec5465bb76d"
 
-"@ionic-native/status-bar@4.4.0":
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/@ionic-native/status-bar/-/status-bar-4.4.0.tgz#35bcf2012ece652bd765a972008bec5a7f258a95"
+"@ionic-native/status-bar@4.4.2":
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/@ionic-native/status-bar/-/status-bar-4.4.2.tgz#d8b7cd70aaf6371f2012a04c9c98e22f0053efff"
 
 "@ionic/app-scripts@3.1.2":
   version "3.1.2"
