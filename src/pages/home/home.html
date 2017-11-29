@@ -5,8 +5,5 @@
 </ion-header>
 
 <ion-content padding>
-  <h2>Welcome to SmeX On Chain!</h2>
-  <p>
-    Hello
-  </p>
+  <button *ngFor="let money of moneys" ion-button block (click)="goToMoneyPage(money)">{{money}}</button>
 </ion-content>
