@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NavController} from 'ionic-angular';
-import {MoneyProvider} from "../../providers/money/money";
+import {PortfolioProvider} from "../../providers/portfolio/portfolio";
 import {MoneyPage} from "../money/money";
 
 @Component({
@@ -10,11 +10,11 @@ import {MoneyPage} from "../money/money";
 export class HomePage implements OnInit {
   moneys: String[];
 
-  constructor(private navCtrl: NavController, private moneyService: MoneyProvider) {
+  constructor(private navCtrl: NavController, private moneyService: PortfolioProvider) {
   }
 
   ngOnInit(): void {
-    this.moneys = this.moneyService.getMoney()
+    this.moneys = this.moneyService.getMyMoneyList()
   }
 
   goToMoneyPage(money: String) {

@@ -7,7 +7,7 @@ import {TabsPage} from '../pages/tabs/tabs';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {SettingsPage} from "../pages/settings/settings";
-import {MoneyProvider} from '../providers/money/money';
+import {PortfolioProvider} from '../providers/portfolio/portfolio';
 import {HttpClientModule} from "@angular/common/http";
 import {MoneyPage} from "../pages/money/money";
 
@@ -36,7 +36,7 @@ import {MoneyPage} from "../pages/money/money";
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    MoneyProvider
+    PortfolioProvider
   ]
 })
 export class AppModule {
