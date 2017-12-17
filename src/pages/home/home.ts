@@ -1,23 +1,18 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
-import {PortfolioProvider} from "../../providers/portfolio/portfolio";
-import {MoneyPage} from "../money/money";
+import {CurrencyProvider} from "../../providers/currency";
+import {DetailsPage} from "../details/details";
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
-export class HomePage implements OnInit {
-  moneys: String[];
+export class HomePage {
 
-  constructor(private navCtrl: NavController, private moneyService: PortfolioProvider) {
+  constructor(private navCtrl: NavController, private currencyService: CurrencyProvider) {
   }
 
-  ngOnInit(): void {
-    this.moneys = this.moneyService.getMyMoneyList()
-  }
-
-  goToMoneyPage(money: String) {
-    this.navCtrl.push(MoneyPage, {money})
+  goToDetailsPage(money: String) {
+    this.navCtrl.push(DetailsPage, {money})
   }
 }

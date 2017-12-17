@@ -3,16 +3,17 @@ import {IonicPage, NavController, NavParams} from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-settings',
-  templateUrl: 'settings.html',
+  selector: 'page-details',
+  templateUrl: 'details.html',
 })
-export class SettingsPage {
+export class DetailsPage {
+  name: String;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad SettingsPage');
+    this.name = this.navParams.get('details');
   }
 
 }

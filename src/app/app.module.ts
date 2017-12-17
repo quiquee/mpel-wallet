@@ -7,15 +7,15 @@ import {TabsPage} from '../pages/tabs/tabs';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {SettingsPage} from "../pages/settings/settings";
-import {PortfolioProvider} from '../providers/portfolio/portfolio';
+import {CurrencyProvider} from '../providers/currency';
 import {HttpClientModule} from "@angular/common/http";
-import {MoneyPage} from "../pages/money/money";
+import {DetailsPage} from "../pages/details/details";
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    MoneyPage,
+    DetailsPage,
     SettingsPage,
     TabsPage
   ],
@@ -28,7 +28,7 @@ import {MoneyPage} from "../pages/money/money";
   entryComponents: [
     MyApp,
     HomePage,
-    MoneyPage,
+    DetailsPage,
     SettingsPage,
     TabsPage
   ],
@@ -36,8 +36,12 @@ import {MoneyPage} from "../pages/money/money";
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    PortfolioProvider
+    CurrencyProvider
   ]
 })
 export class AppModule {
+
+  constructor(private currencyProvider: CurrencyProvider) {
+    currencyProvider.initCurrencyProvider();
+  }
 }

@@ -1,11 +1,10 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Home</ion-title>
+    <ion-title>Portfolio</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h2>My Portfolio</h2>
-
-  <button *ngFor="let money of moneys" ion-button block (click)="goToMoneyPage(money)">{{money}}</button>
+  <button *ngFor="let currency of currencyService.getCurrencyList()" 
+    ion-button block (click)="goToDetailsPage(currency)">{{currency.balance}} {{currency.symbol}}</button>
 </ion-content>

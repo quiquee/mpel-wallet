@@ -1,8 +1,14 @@
 {
-  "name": "onChain-app",
+  "name": "mpel=wallet",
   "app_id": "",
   "type": "ionic-angular",
   "integrations": {
     "cordova": {}
-  }
+  },
+  "proxies": [
+    {
+      "path": "/node",
+      "proxyUrl": "http://163.172.104.223:1002"
+    }
+  ]
 }
