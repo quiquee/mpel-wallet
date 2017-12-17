@@ -17,8 +17,14 @@ export class CurrencyProvider {
   constructor(private accountProvider : AccountProvider) {
   }
 
-  public getCurrencyList() {
+  public allCurrencies(): Array<Currency> {
     return this.currencies;
+  }
+
+  public getCurrency(symbol: String) : Currency {
+    return this.currencies.filter(currency => {
+      return currency.symbol == symbol;
+    })[0];
   }
 
   async loadTokens() {
@@ -53,6 +59,10 @@ export class CurrencyProvider {
   async refreshBalance(token) {
     let balance = await token.contract.methods.balanceOf(this.accountProvider.activeAccount().pubKey).call() / 100;
     token.balance = (balance) ? balance : 0;
+  }
+
+  async transfer(currency: Currency, beneficiaryAddress: String, amount: Number) {
+    await currency.contract.methods.transfer(beneficiaryAddress, amount).call();
   }
 
   initCurrencyProvider() {

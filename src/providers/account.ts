@@ -14,15 +14,21 @@ export class AccountProvider {
   constructor() {
   }
 
-  activeAccount(): Account {
+  public activeAccount(): Account {
     return this.active;
   }
 
-  allAccounts(): Array<Account> {
+  public otherAccounts(account: Account): Array<Account> {
+    return AccountProvider.ACCOUNTS.filter(account => {
+      return account != this.active;
+    });
+  }
+
+  public allAccounts(): Array<Account> {
     return AccountProvider.ACCOUNTS;
   }
 
-  setActive(account): void {
+  public setActive(account): void {
     this.active = account;
   }
 }

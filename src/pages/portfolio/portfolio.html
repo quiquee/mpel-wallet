@@ -6,7 +6,7 @@
 
 <ion-content padding>
   <ion-list inset>
-    <button ion-item *ngFor="let currency of currencyService.getCurrencyList()" (click)="goToDetailsPage(currency)">
+    <button ion-item *ngFor="let currency of currencyService.allCurrencies()" (click)="goToDetailsPage(currency)">
       <ion-avatar item-start>
         <img *ngIf="currency.symbol" src="../../../assets/imgs/currencies/{{currency.image}}.png"/>
       </ion-avatar>
