@@ -1,19 +1,22 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {NavController, NavParams} from 'ionic-angular';
 
-@IonicPage()
 @Component({
   selector: 'page-details',
   templateUrl: 'details.html',
 })
 export class DetailsPage {
-  name: String;
+  public currency = {};
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
+  transfer() {
+
+  }
+
   ionViewDidLoad() {
-    this.name = this.navParams.get('details');
+    this.currency = this.navParams.get('currency');
   }
 
 }

@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Portfolio</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list inset>
+    <button ion-item *ngFor="let currency of currencyService.getCurrencyList()" (click)="goToDetailsPage(currency)">
+      <ion-avatar item-start>
+        <img *ngIf="currency.symbol" src="../../../assets/imgs/currencies/{{currency.image}}.png"/>
+      </ion-avatar>
+      <h2>{{formatService.formatAmount(currency.balance)}} {{currency.symbol}}</h2>
+    </button>
+  </ion-list>
+</ion-content>
