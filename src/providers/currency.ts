@@ -5,6 +5,7 @@ const FiatToken = require('../assets/contracts/FiatToken.json');
 
 import { Injectable } from '@angular/core';
 import { AccountProvider } from './account';
+import { Account } from '../model/account';
 import { Currency } from '../model/currency';
 
 @Injectable()
@@ -12,16 +13,16 @@ export class CurrencyProvider {
   public web3: any;
   private currencies: Array<Currency> = [];
 
-  private static TOKENS_CONTRACT_ADDR = '0x73b10223b2318cfb775fbe7bc5781a04c2a0a3cd';  
+  private static TOKENS_CONTRACT_ADDR = '0x73b10223b2318cfb775fbe7bc5781a04c2a0a3cd';
 
-  constructor(private accountProvider : AccountProvider) {
+  constructor(private accountProvider: AccountProvider) {
   }
 
   public allCurrencies(): Array<Currency> {
     return this.currencies;
   }
 
-  public getCurrency(symbol: String) : Currency {
+  public getCurrency(symbol: String): Currency {
     return this.currencies.filter(currency => {
       return currency.symbol == symbol;
     })[0];
@@ -61,8 +62,41 @@ export class CurrencyProvider {
     token.balance = (balance) ? balance : 0;
   }
 
-  async transfer(currency: Currency, beneficiaryAddress: String, amount: Number) {
-    await currency.contract.methods.transfer(beneficiaryAddress, amount).call();
+
+  private async transferEth(beneficiary: Account, amount: Number) {
+    let sender = this.accountProvider.activeAccount();
+    console.log(sender);
+    if (sender.pKey) {
+      console.log(amount + ' eth to '+ beneficiary.name);
+      await this.web3.eth.personal.unlockAccount(sender.pubKey, 'password');
+      await this.web3.eth.sendTransaction({
+        from: sender.pubKey,
+        to: beneficiary.pubKey,
+        value: this.web3.utils.toWei(amount, 'ether')
+      }).then(result => {
+        console.log(result);
+      }).catch(error => {
+        console.error(error);
+      });
+    }
+  }
+
+  private async transferERC20(currency: Currency, beneficiary: Account, amount: Number) {
+    console.log(currency.contract.methods.transfer);
+    await currency.contract.methods.transfer(beneficiary.pubKey, amount).call().then(result => {
+      console.log(result);
+    }).catch(error => {
+      console.error(error);
+    });
+  }
+
+  public transfer(currencySymbol: String, beneficiary: Account, amount: Number) {
+    if (currencySymbol == 'ETH') {
+      return this.transferEth(beneficiary, amount);
+    } else {
+      let currency = this.getCurrency(currencySymbol);
+      return this.transferERC20(currency, beneficiary, amount);
+    }
   }
 
   initCurrencyProvider() {

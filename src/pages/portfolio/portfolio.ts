@@ -1,7 +1,9 @@
-import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
-import {CurrencyProvider} from "../../providers/currency";
-import {DetailsPage} from "../details/details";
+import { Component } from '@angular/core';
+import { NavController } from 'ionic-angular';
+import { DetailsPage } from "../details/details";
+import { TransferPage } from "../transfer/transfer";
+import { AccountProvider } from "../../providers/account";
+import { CurrencyProvider } from "../../providers/currency";
 import { FormatProvider } from '../../providers/format';
 
 @Component({
@@ -11,11 +13,16 @@ import { FormatProvider } from '../../providers/format';
 export class PortfolioPage {
 
   constructor(private navCtrl: NavController, private currencyService: CurrencyProvider,
-        public formatService: FormatProvider) {
+    public accountProvider: AccountProvider, public formatService: FormatProvider) {
+  }
+
+  startTransfer(currency, event: FocusEvent) {
+    event.stopPropagation();
+    this.navCtrl.push(TransferPage, { currency });
   }
 
   goToDetailsPage(currency) {
-    this.navCtrl.push(DetailsPage, {currency});
+    this.navCtrl.push(DetailsPage, { currency });
   }
 
   ionViewDidEnter() {

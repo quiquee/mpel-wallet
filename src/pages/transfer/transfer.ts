@@ -19,18 +19,19 @@ export class TransferPage {
     public currencyProvider: CurrencyProvider, public accountProvider: AccountProvider) {
   }
 
+  ionViewDidLoad() {
+    let currency = this.navParams.get('currency');
+    if(currency) {
+      this.selectedCurrencySymbol = currency.symbol;
+    }
+  }
+
   public transfer() {
-    /* Not yet working !
-    let currency = this.currencyProvider.getCurrency(this.selectedCurrencySymbol);
-    if (currency) {
-      try {
-        this.currencyProvider.transfer(currency, this.selectedAccount.pubKey, this.selectedAmount);
-      } catch(e) {
-        console.error(e);
-      }
-    } else {
-      console.error('invalid currency <' + this.selectedCurrencySymbol + '> !')
-    }*/
+    this.currencyProvider.transfer(
+      this.selectedCurrencySymbol,
+      this.selectedAccount,
+      this.selectedAmount
+    );
     this.navCtrl.parent.select(0);
   }
 
@@ -42,6 +43,7 @@ export class TransferPage {
 
   public getBalance() {
     if (this.selectedCurrencySymbol) {
+      console.log(this.selectedCurrencySymbol);
       return this.currencyProvider.getCurrency(this.selectedCurrencySymbol).balance;
     }
   }
