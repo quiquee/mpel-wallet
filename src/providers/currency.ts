@@ -39,14 +39,14 @@ export class CurrencyProvider {
         return Math.round((this.web3.utils.fromWei(value, "ether") * 100) / 100).toFixed(2);
       });
     this.currencies = [{
-      name: 'Ethereum', balance: ethBalance,
+      name: 'Ethereum', balance: ethBalance, decimal: null,
       address: null, contract: null, supply: null, symbol: 'ETH', image: 'ETH'
     }];
 
     for (var i = 1; i <= count; i++) {
       let address = await contract.methods.getCurrencyById(i).call();
 
-      let token = { name: null, balance: null, address: address, contract: null, supply: null, symbol: null, image: null };
+      let token = { name: null, balance: null, decimal: 2, address: address, contract: null, supply: null, symbol: null, image: null };
       token.contract = new this.web3.eth.Contract(FiatToken.abi, address);
       token.name = await token.contract.methods.name().call();
       token.symbol = this.web3.utils.toAscii(await token.contract.methods.symbol().call());
@@ -63,11 +63,10 @@ export class CurrencyProvider {
   }
 
 
-  private async transferEth(beneficiary: Account, amount: Number) {
+  private async transferEth(beneficiary: Account, amount: number) {
     let sender = this.accountProvider.activeAccount();
-    console.log(sender);
     if (sender.pKey) {
-      console.log(amount + ' eth to '+ beneficiary.name);
+      console.log(amount + ' eth to ' + beneficiary.name);
       await this.web3.eth.personal.unlockAccount(sender.pubKey, 'password');
       await this.web3.eth.sendTransaction({
         from: sender.pubKey,
@@ -81,16 +80,21 @@ export class CurrencyProvider {
     }
   }
 
-  private async transferERC20(currency: Currency, beneficiary: Account, amount: Number) {
-    console.log(currency.contract.methods.transfer);
-    await currency.contract.methods.transfer(beneficiary.pubKey, amount).call().then(result => {
-      console.log(result);
-    }).catch(error => {
-      console.error(error);
-    });
+  private async transferERC20(currency: Currency, beneficiary: Account, amount: number) {
+    let sender = this.accountProvider.activeAccount();
+    if (sender.pKey) {
+      console.log(amount + ' '+ currency.symbol+' to ' + beneficiary.name);
+      let cents = amount * (10 ** currency.decimal);
+      await this.web3.eth.personal.unlockAccount(sender.pubKey, 'password');
+      await currency.contract.methods.transfer(beneficiary.pubKey, cents).send({ from: sender.pubKey }).then(result => {
+        console.log(result);
+      }).catch(error => {
+        console.error(error);
+      });
+    }
   }
 
-  public transfer(currencySymbol: String, beneficiary: Account, amount: Number) {
+  public transfer(currencySymbol: String, beneficiary: Account, amount: number) {
     if (currencySymbol == 'ETH') {
       return this.transferEth(beneficiary, amount);
     } else {

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Currency } from '../../model/currency';
 import { Account } from '../../model/account';
 import { CurrencyProvider } from '../../providers/currency';
 import { NavController, NavParams } from 'ionic-angular';
@@ -12,7 +11,7 @@ import { AccountProvider } from '../../providers/account';
 export class TransferPage {
 
   public selectedCurrencySymbol: String;
-  public selectedAmount: Number;
+  public selectedAmount: number;
   public selectedAccount: Account;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
@@ -43,7 +42,6 @@ export class TransferPage {
 
   public getBalance() {
     if (this.selectedCurrencySymbol) {
-      console.log(this.selectedCurrencySymbol);
       return this.currencyProvider.getCurrency(this.selectedCurrencySymbol).balance;
     }
   }
