@@ -31,7 +31,7 @@ export class TransferPage {
       this.selectedAccount,
       this.selectedAmount
     );
-    this.navCtrl.parent.select(0);
+    this.navCtrl.popToRoot();
   }
 
   public getCurrenciesWithBalance() {

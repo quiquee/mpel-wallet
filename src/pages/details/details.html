@@ -11,15 +11,14 @@
   <div>
     <h4>Balance</h4>
     <p>{{currency.balance}} {{currency.symbol}}</p>
+    <p>Total supply: {{currency.supply}} {{ currency.symbol }}</p>
   </div>
   <hr/>
   <div><h4>History</h4>
     <table>
-      <tr><td>20/12/2017 08:34</td><td>Toto</td><td>50.00 CHF</td></tr>
-      <tr><td>20/12/2017 08:34</td><td>Toto</td><td>50.00 CHF</td></tr>
-      <tr><td>20/12/2017 08:34</td><td>Toto</td><td>50.00 CHF</td></tr>
-      <tr><td>20/12/2017 08:34</td><td>Toto</td><td>50.00 CHF</td></tr>
-      <tr><td>20/12/2017 08:34</td><td>Toto</td><td>50.00 CHF</td></tr>
+      <tr *ngFor="let transfer of currency.history">
+        <td>{{ transfer.amount }} {{currency.symbol}}</td><td>{{ transfer.from }}</td><td>{{ transfer.to }}</td>
+      </tr>
     </table>
   </div>
 </ion-content>
