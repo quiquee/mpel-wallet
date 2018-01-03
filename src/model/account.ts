@@ -1,19 +1,29 @@
+
+import { Currency } from './currency';
+import { Transfer } from './transfer';
+
 export enum AccountType {
   PUBLIC, MULTISIG, COLD, HOT
 }
 
 export class Account { 
-  name: String;
-  pubKey: String;
-  pKey: String;
-  type: AccountType; 
+  name: string;
+  pubKey: string;
+  pKey: string;
+  type: AccountType;
+
+  portfolio: { currency: Currency, balance: number, transfers: Transfer[] }[];
   
-  public static publicAccount(name: String, pubKey: String) : Account {
-    return { name: name, pubKey: pubKey, pKey: null, type: AccountType.PUBLIC};
+  public static publicAccount(name: string, pubKey: string) : Account {
+    return { name: name, pubKey: pubKey, pKey: null, 
+      type: AccountType.PUBLIC,
+      portfolio: [] };
   }
 
-  public static hotAccount(name: String, pubKey: String, pKey: String) : Account {
-    return { name: name, pubKey: pubKey, pKey: pKey, type: AccountType.HOT};
+  public static hotAccount(name: string, pubKey: string, pKey: string) : Account {
+    return { name: name, pubKey: pubKey, pKey: pKey, 
+      type: AccountType.HOT, 
+      portfolio: [] };
   }
 
   static coldAccount() {

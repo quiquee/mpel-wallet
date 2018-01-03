@@ -12,8 +12,11 @@ import {SettingsPage} from "../pages/settings/settings";
 import {AccountProvider} from '../providers/account';
 import {FormatProvider} from '../providers/format';
 import {CurrencyProvider} from '../providers/currency';
+import {Web3Provider} from '../providers/web3';
+import {StatusProvider} from '../providers/status';
 import {HttpClientModule} from "@angular/common/http";
 import {DetailsPage} from "../pages/details/details";
+import {HeaderComponent} from '../components/header/header';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,8 @@ import {DetailsPage} from "../pages/details/details";
     DetailsPage,
     SettingsPage,
     TabsPage,
-    TransferPage
+    TransferPage,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -47,12 +51,11 @@ import {DetailsPage} from "../pages/details/details";
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AccountProvider,
     FormatProvider,
-    CurrencyProvider
+    CurrencyProvider,
+    StatusProvider,
+    Web3Provider
   ]
 })
 export class AppModule {
 
-  constructor(private currencyProvider: CurrencyProvider) {
-    this.currencyProvider.initCurrencyProvider();
-  }
 }

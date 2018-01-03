@@ -1,7 +1,5 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>Transfer</ion-title>
-  </ion-navbar>
+  <header>Transfer</header>
 </ion-header>
 
 <ion-content padding>
@@ -11,14 +9,14 @@
         <ion-label floating *ngIf="selectedCurrencySymbol">Currency</ion-label>
         <ion-select name="selectedCurrencySymbol" required
             [(ngModel)]="selectedCurrencySymbol" placeholder="Select a Currency">
-          <ion-option *ngFor="let currency of getCurrenciesWithBalance()"
-            [value]="currency.symbol">{{currency.name}}</ion-option>
+          <ion-option *ngFor="let token of getPositivePortfolio()"
+            [value]="token.currency.symbol">{{token.currency.name}}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item *ngIf="selectedCurrencySymbol">
-        <ion-label floating>Amount in {{selectedCurrencySymbol}} (Max  {{ getBalance() }} )</ion-label>
+        <ion-label floating>Amount in {{ selectedToken.currency.symbol }} (Max  {{ selectedToken.balance }} )</ion-label>
         <ion-input name="selectedAmount" [(ngModel)]="selectedAmount" 
-            type="number" max="{{ getBalance() }}" required></ion-input>
+            type="number" max="{{ selectedToken.balance }}" required></ion-input>
       </ion-item>
       <ion-item *ngIf="selectedCurrencySymbol">
         <ion-label floating *ngIf="selectedAccount">Beneficiary</ion-label>

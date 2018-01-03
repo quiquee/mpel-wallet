@@ -1,9 +1,5 @@
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>Accounts</ion-title>
-  </ion-navbar>
-
+  <header>Accounts</header>
 </ion-header>
 
 
@@ -14,6 +10,7 @@
           <ion-icon name="person" item-start></ion-icon>          
           <h2>{{account.name}}</h2>
           <ion-icon *ngIf="account == accountProvider.activeAccount()" name="checkmark" item-end></ion-icon>       
+          <ion-icon *ngIf="account.pKey" name="key" item-end></ion-icon>
         </button>
       </ion-list>
 </ion-content>

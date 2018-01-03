@@ -1,13 +1,15 @@
+import { Account } from './account';
 import { Transfer } from './transfer';
+import { Observable } from 'rxjs/Observable';
 
 export class Currency {
-  name: String;
+  name: string;
   decimal: number;
-  balance: number;
-  address: String;
+  address: string;
   contract: any;
   supply: number;
-  symbol: String;
-  image: String;
-  history: Array<Transfer>;
+  symbol: string;
+  image: string;
+  balanceOf(account: Account): Observable<number> { return null; };
+  transfer(sender: Account, beneficiary: Account, amount: number): Observable<Transfer> { return null; }
 }

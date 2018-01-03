@@ -93,4 +93,5 @@
         <variable name="XWALK_MODE" value="embedded" />
         <variable name="XWALK_MULTIPLEAPK" value="true" />
     </plugin>
+    <plugin name="cordova-plugin-nativestorage" spec="^2.2.2" />
 </widget>

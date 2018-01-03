@@ -1,20 +1,21 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>Portfolio</ion-title>
-  </ion-navbar>
+  <header>Portfolio</header>
 </ion-header>
 
 <ion-content padding>
   <ion-list inset>
-    <button ion-item *ngFor="let currency of currencyService.allCurrencies()" (click)="goToDetailsPage(currency)">
+    <button ion-item *ngFor="let token of activeAccount.portfolio" (click)="goToDetailsPage(token)">
       <ion-avatar item-start>
-        <img *ngIf="currency.symbol" src="../../../assets/imgs/currencies/{{currency.image}}.png"/>
+        <img *ngIf="token.currency.symbol" src="../../../assets/imgs/currencies/{{token.currency.image}}.png"
+        />
       </ion-avatar>
-      <h2>{{formatService.formatAmount(currency.balance)}} {{currency.symbol}}</h2>
-      <ion-icon name="arrow-dropright-circle"
-        *ngIf="accountProvider.activeAccount().pKey && currency.balance > 0"
-        (click)="startTransfer(currency, $event)"
-        item-end></ion-icon>      
+      <h2>{{ activeAccountBalance(token) }}</h2>
+      <button item-end ion-button icon-end solid
+        *ngIf="activeAccountCanSend(token)"
+        (click)="startTransfer(token, $event)">
+        Send
+        <ion-icon name="card"></ion-icon>
+      </button>
     </button>
   </ion-list>
 </ion-content>

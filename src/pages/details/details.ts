@@ -1,14 +1,18 @@
 import {Component} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
+import {AccountProvider} from '../../providers/account';
 
 @Component({
   selector: 'page-details',
   templateUrl: 'details.html',
 })
 export class DetailsPage {
-  public currency = {};
+  activeAccount;
+  token = { currency: {}, balance: 0, transfers: [] };
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private accountProvider: AccountProvider, 
+    public navCtrl: NavController, public navParams: NavParams) {
+    this.activeAccount = this.accountProvider.activeAccount();
   }
 
   transfer() {
@@ -16,7 +20,7 @@ export class DetailsPage {
   }
 
   ionViewDidLoad() {
-    this.currency = this.navParams.get('currency');
+    this.token = this.navParams.get('token');
   }
 
 }

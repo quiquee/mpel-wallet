@@ -1,22 +1,17 @@
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>{{ currency.name }}</ion-title>
-  </ion-navbar>
-
+  <header>{{ token.currency.name }}</header>
 </ion-header>
-
 
 <ion-content padding>
   <div>
     <h4>Balance</h4>
-    <p>{{currency.balance}} {{currency.symbol}}</p>
-    <p>Total supply: {{currency.supply}} {{ currency.symbol }}</p>
+    <p>{{token.balance}} {{token.currency.symbol}}</p>
+    <p *ngIf="token.currency.supply">Total supply: {{token.currency.supply}} {{ token.currency.symbol }}</p>
   </div>
   <hr/>
   <div><h4>History</h4>
     <table>
-      <tr *ngFor="let transfer of currency.history">
+      <tr *ngFor="let transfer of token.transfers">
         <td>{{ transfer.amount }} {{currency.symbol}}</td><td>{{ transfer.from }}</td><td>{{ transfer.to }}</td>
       </tr>
     </table>
