@@ -12,16 +12,18 @@ export class Account {
   pKey: string;
   type: AccountType;
 
+  internal: any;
+
   portfolio: { currency: Currency, balance: number, transfers: Transfer[] }[];
   
   public static publicAccount(name: string, pubKey: string) : Account {
-    return { name: name, pubKey: pubKey, pKey: null, 
+    return { name: name, pubKey: pubKey, pKey: null, internal: null,
       type: AccountType.PUBLIC,
       portfolio: [] };
   }
 
   public static hotAccount(name: string, pubKey: string, pKey: string) : Account {
-    return { name: name, pubKey: pubKey, pKey: pKey, 
+    return { name: name, pubKey: pubKey, pKey: pKey, internal: null,
       type: AccountType.HOT, 
       portfolio: [] };
   }

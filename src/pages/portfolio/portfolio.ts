@@ -13,7 +13,7 @@ import { Observable } from 'rxjs/Observable';
   templateUrl: 'portfolio.html'
 })
 export class PortfolioPage {
-
+  error: string;
   private activeAccount;
   private allTokensSubscription;
 
@@ -58,6 +58,8 @@ export class PortfolioPage {
     .subscribe(data => {
       activeAccount.portfolio = data;
       this.activeAccount = activeAccount;
+    }, error => {
+      console.error(error);
     });
   }
 

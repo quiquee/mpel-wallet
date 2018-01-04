@@ -1,7 +1,10 @@
 declare function require(moduleName: string): any;
 const Web3 = require("web3");
+const EthereumTx = require('ethereumjs-tx');
+
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Buffer } from 'buffer';
 import 'rxjs/Rx';
 
 @Injectable()
@@ -21,12 +24,52 @@ export class Web3Provider {
     return this.web3.utils;
   }
 
+  getAccounts() {
+    return this.web3.eth.accounts;
+  }
+
   getBalance(address: string) {
     return this.web3.eth.getBalance(address);
   }
 
-  unlockAccount(address: string, password: string) {
-    return this.web3.eth.personal.unlockAccount(address, password);
+  sendSignedTransaction(fromAddress: string, fromPKey: string, toAddress: string, value: number, contractData: string) {
+    let web3 = this.web3;
+    return Observable.fromPromise(
+      Promise.all([
+        web3.eth.getTransactionCount(fromAddress),
+        web3.eth.getGasPrice()
+      ]).then(data => {
+        let txParams = {
+          nonce: web3.utils.toHex(data[0]),
+          gas: web3.utils.toHex(30000),
+          gasPrice: web3.utils.toHex(data[1]),
+          to: toAddress,
+        };
+        if (value) {
+          txParams['value'] = value;
+        }
+        if (contractData) {
+          txParams['data'] = contractData;
+          txParams.gas = web3.utils.toHex(300000);
+        }
+        console.log(txParams);
+        const tx = new EthereumTx(txParams);
+        tx.sign(Buffer(fromPKey, 'hex'));
+        return web3.eth.sendSignedTransaction('0x' + tx.serialize().toString('hex'))
+          .on('transactionHash', function (hash) {
+            console.log(hash);
+          })
+          .on('receipt', function (receipt) {
+            console.log(receipt);
+          })
+          .on('confirmation', function (confirmationNumber, receipt) {
+            console.log('Confirmation: ');
+            console.log(confirmationNumber);
+            console.log(receipt);
+            return receipt;
+          })
+          .on('error', console.error);
+      }));
   }
 
   constructor() {
@@ -46,6 +89,5 @@ export class Web3Provider {
     this.latestBlockObs = Observable.concat(
       Observable.fromPromise(this.web3.eth.getBlock('latest')),
       latestBlockEmitterObs);
-
   }
 }

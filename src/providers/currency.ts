@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 import { Web3Provider } from './web3';
 import { Account } from '../model/account';
 import { Currency } from '../model/currency';
+import { Transfer } from '../model/transfer';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 
@@ -16,6 +17,7 @@ export class CurrencyProvider {
   public allCurrencies = this.allCurrenciesObs();
 
   constructor(private web3Provider: Web3Provider) {
+    console.log(this.web3Provider.getAccounts().create());
   }
 
   private allCurrenciesObs(): Observable<Array<Currency>> {
@@ -31,7 +33,11 @@ export class CurrencyProvider {
           balanceOf: (account: Account) => Observable.fromPromise(Promise.resolve(account)
             .then(account => this.web3Provider.getBalance(account.pubKey)
               .then(balance => this.web3Provider.getUtils().fromWei(balance, 'ether')))),
-          transfer: () => { return Observable.of(null); }
+          transfer: function(sender: Account, beneficiary: Account, amount: number) {
+            let value = web3Provider.getUtils().toWei(amount, 'ether');
+            return web3Provider.sendSignedTransaction(
+              sender.pubKey, sender.pKey, beneficiary.pubKey, value, null);
+          }
         })
       ];
 
@@ -43,7 +49,7 @@ export class CurrencyProvider {
           return Promise.all([
             methods.name().call(),
             methods.symbol().call()
-              .then(symbol => this.web3Provider.getUtils().toAscii(symbol)),
+              .then(symbol => web3Provider.getUtils().toAscii(symbol)),
             methods.totalSupply().call(),
           ]).then(details => <Currency>{
             name: details[0],
@@ -59,18 +65,12 @@ export class CurrencyProvider {
               Observable.fromPromise(Promise.resolve(account)
                 .then(account => contract.methods.balanceOf(account.pubKey).call())
                 .then((balance: number) => (balance) ? balance / 100 : 0)),
-            transfer: function (sender: Account, beneficiary: Account, amount: number) {
-              if (sender.pKey) {
-                console.log(amount + ' ' + this.symbol + ' to ' + beneficiary.name);
-                let cents = amount * (10 ** this.decimal);
-                console.log(web3Provider);
-                let promise = web3Provider.unlockAccount(sender.pubKey, 'password')
-                  .then(() => methods.transfer(beneficiary.pubKey, cents).send({ from: sender.pubKey }))
-                  .then(result => { console.log(result); })
-                  .catch(error => { console.error(error); });
-                return Observable.fromPromise(promise);
-              }
-              return null;
+            transfer: function(sender: Account, beneficiary: Account, amount: number) {
+              console.log(amount + ' ' + this.symbol + ' to ' + beneficiary.name);
+              let cents = amount * (10 ** this.decimal);
+              let contractData = methods.transfer(beneficiary.pubKey, cents).encodeABI();
+              return web3Provider.sendSignedTransaction(
+                sender.pubKey, sender.pKey, address, null, contractData);
             }
           });
         });
@@ -80,33 +80,4 @@ export class CurrencyProvider {
     });
     return Observable.fromPromise(promise);
   }
-
-  /*private async transferEth(sender: Account, beneficiary: Account, amount: number) {
-    if (sender.pKey) {
-      console.log(amount + ' eth to ' + beneficiary.name);
-      await this.web3.eth.personal.unlockAccount(sender.pubKey, 'password');
-      await this.web3.eth.sendTransaction({
-        from: sender.pubKey,
-        to: beneficiary.pubKey,
-        value: this.web3.utils.toWei(amount, 'ether')
-      }).then(result => {
-        console.log(result);
-      }).catch(error => {
-        console.error(error);
-      });
-    }
-  }*/
-
-  /*private async transferERC20(sender: Account, beneficiary: Account, amount: number) {
-    if (sender.pKey) {
-      console.log(amount + ' ' + currency.symbol + ' to ' + beneficiary.name);
-      let cents = amount * (10 ** currency.decimal);
-      await this.web3.eth.personal.unlockAccount(sender.pubKey, 'password');
-      await currency.contract.methods.transfer(beneficiary.pubKey, cents).send({ from: sender.pubKey }).then(result => {
-        console.log(result);
-      }).catch(error => {
-        console.error(error);
-      });
-    }
-  }*/
 }
