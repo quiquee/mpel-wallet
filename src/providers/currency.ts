@@ -53,7 +53,6 @@ export class CurrencyProvider {
             methods.totalSupply().call(),
           ]).then(details => <Currency>{
             name: details[0],
-            balance: 0,
             decimal: 2,
             address: address,
             contract: contract,

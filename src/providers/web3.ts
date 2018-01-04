@@ -1,6 +1,5 @@
 declare function require(moduleName: string): any;
 const Web3 = require("web3");
-const EthereumTx = require('ethereumjs-tx');
 
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
@@ -37,25 +36,31 @@ export class Web3Provider {
     return Observable.fromPromise(
       Promise.all([
         web3.eth.getTransactionCount(fromAddress),
-        web3.eth.getGasPrice()
+        web3.eth.getGasPrice(),
+        web3.eth.net.getId()
       ]).then(data => {
+        let account = web3.eth.accounts.privateKeyToAccount(fromPKey);
+        web3.eth.accounts.wallet.add(account);
+        console.log(web3.eth.accounts.wallet);
+        console.log(account);
         let txParams = {
-          nonce: web3.utils.toHex(data[0]),
-          gas: web3.utils.toHex(30000),
-          gasPrice: web3.utils.toHex(data[1]),
+          from: account.address,
+          nonce: data[0],
+          gas: 20000,
+          gasPrice: data[1],
           to: toAddress,
+          chainId: data[2]
         };
         if (value) {
           txParams['value'] = value;
         }
         if (contractData) {
           txParams['data'] = contractData;
-          txParams.gas = web3.utils.toHex(300000);
+          txParams.gas = (300000);
         }
         console.log(txParams);
-        const tx = new EthereumTx(txParams);
-        tx.sign(Buffer(fromPKey, 'hex'));
-        return web3.eth.sendSignedTransaction('0x' + tx.serialize().toString('hex'))
+        //let tx = web3.eth.accounts.signTransaction(txParams, fromPKey);
+        return web3.eth.sendTransaction(txParams)
           .on('transactionHash', function (hash) {
             console.log(hash);
           })

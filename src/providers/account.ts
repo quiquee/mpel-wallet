@@ -10,7 +10,7 @@ export class AccountProvider {
     Account.publicAccount('MtPelerin BankProject Hot', '0x9DCC65CfC9F1379c6073e8a778B177fE78291C2a'),
     Account.hotAccount('Wallet Static with Pkey', 
         '0xf5515abe3dE30b9A9b8359e22Ba451B32AB3C40F',
-        '2b509a3f22fcf5890ce908d49ba20520c9cedc458180148b8fd5970606646513')
+        '0x2b509a3f22fcf5890ce908d49ba20520c9cedc458180148b8fd5970606646513')
   ];
   
   private active: Account = this.accounts[3];
