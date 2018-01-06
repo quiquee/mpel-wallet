@@ -1,6 +1,7 @@
 export class Transfer {
   amount: number;
-  from: String;
-  to: String;
+  from: string;
+  to: string;
   blockNumber: number;
+  hash: string
 }

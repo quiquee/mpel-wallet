@@ -27,7 +27,7 @@ export class CurrencyProvider {
     let promise = tokenDirectory.methods.getCurrencyCount().call().then(count => {
       let tokens: Promise<Currency>[] = [
         Promise.resolve({
-          name: 'Ethereum', balance: 0, decimal: null,
+          name: 'Ethereum', decimal: null,
           address: null, contract: null, supply: null, symbol: 'ETH', image: 'ETH',
           history: [],
           balanceOf: (account: Account) => Observable.fromPromise(Promise.resolve(account)

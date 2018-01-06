@@ -3,6 +3,11 @@
     <ng-content></ng-content>
   </ion-title>
   <ion-buttons end>
+    <ion-badge item-end color="primary" *ngIf="createdTxs > 0">{{ createdTxs }} created</ion-badge>
+    <ion-badge item-end color="light" *ngIf="pendingTxs > 0">{{ pendingTxs }} pending</ion-badge>
+    <ion-badge item-end color="warn" *ngIf="unconfirmedTxs > 0">{{ unconfirmedTxs }} unconfirmed</ion-badge>
+  </ion-buttons>
+  <ion-buttons end>
     <ion-title>{{ blockNumber }}</ion-title>
   </ion-buttons>
 </ion-navbar>

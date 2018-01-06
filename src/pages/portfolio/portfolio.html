@@ -3,7 +3,7 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list inset>
+  <ion-list>
     <button ion-item *ngFor="let token of activeAccount.portfolio" (click)="goToDetailsPage(token)">
       <ion-avatar item-start>
         <img *ngIf="token.currency.symbol" src="../../../assets/imgs/currencies/{{token.currency.image}}.png"
@@ -11,7 +11,7 @@
       </ion-avatar>
       <h2>{{ activeAccountBalance(token) }}</h2>
       <button item-end ion-button icon-end solid
-        *ngIf="activeAccountCanSend(token)"
+        *ngIf="activeAccount.canSend(token.currency)"
         (click)="startTransfer(token, $event)">
         Send
         <ion-icon name="card"></ion-icon>

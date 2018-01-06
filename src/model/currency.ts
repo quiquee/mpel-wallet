@@ -10,6 +10,7 @@ export class Currency {
   supply: number;
   symbol: string;
   image: string;
+  history: Array<any>;
   balanceOf(account: Account): Observable<number> { return null; };
   transfer(sender: Account, beneficiary: Account, amount: number): Observable<Transfer> { return null; }
 }

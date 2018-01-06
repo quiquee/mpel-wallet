@@ -3,6 +3,7 @@ const Web3 = require("web3");
 
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Buffer } from 'buffer';
 import 'rxjs/Rx';
 
@@ -10,9 +11,21 @@ import 'rxjs/Rx';
 export class Web3Provider {
   private web3;
   private latestBlockObs: Observable<any>;
+  private pendingBlockObs: Observable<any>;
+  private txsSubject: BehaviorSubject<any>;
+
+  private transactions: Array<any> = [];
 
   blockData(): Observable<any> {
     return this.latestBlockObs;
+  }
+
+  pendingBlockData(): Observable<any> {
+    return this.pendingBlockObs;
+  }
+
+  txsData(): Observable<any> {
+    return this.txsSubject;
   }
 
   public getContract(abi: any, address: string): any {
@@ -33,6 +46,8 @@ export class Web3Provider {
 
   sendSignedTransaction(fromAddress: string, fromPKey: string, toAddress: string, value: number, contractData: string) {
     let web3 = this.web3;
+    let transactions = this.transactions;
+    let txsSubject = this.txsSubject;
     return Observable.fromPromise(
       Promise.all([
         web3.eth.getTransactionCount(fromAddress),
@@ -46,7 +61,7 @@ export class Web3Provider {
         let txParams = {
           from: account.address,
           nonce: data[0],
-          gas: 20000,
+          gas: 30000,
           gasPrice: data[1],
           to: toAddress,
           chainId: data[2]
@@ -59,40 +74,88 @@ export class Web3Provider {
           txParams.gas = (300000);
         }
         console.log(txParams);
-        //let tx = web3.eth.accounts.signTransaction(txParams, fromPKey);
         return web3.eth.sendTransaction(txParams)
           .on('transactionHash', function (hash) {
             console.log(hash);
+            transactions.push({
+              from: txParams.from,
+              to: txParams.to,
+              hash: hash,
+              blockNumber: null,
+              status: 'CREATED'
+            });
+            txsSubject.next({ transactions: transactions });
           })
           .on('receipt', function (receipt) {
-            console.log(receipt);
+            transactions.map(tx => {
+              if(tx.status=='CREATED' && tx.hash == receipt.transactionHash) {
+                tx.status = 'PENDING';
+                txsSubject.next({ transactions: transactions });
+              }
+            });
           })
-          .on('confirmation', function (confirmationNumber, receipt) {
-            console.log('Confirmation: ');
-            console.log(confirmationNumber);
-            console.log(receipt);
-            return receipt;
-          })
+          //.on('confirmation', function (confirmationNumber, receipt) {})
           .on('error', console.error);
       }));
+  }
+
+  private buildLatestBlockObs(): Observable<any> {
+    let latestBlockEmitterObs = Observable.create(observer => {
+      this.web3.eth.subscribe('newBlockHeaders', (error, value) => {
+        if (error) {
+          observer.error(error);
+        } else {
+          this.web3.eth.getBlock(value.number).then(block => {
+            this.transactions.map(tx => {
+              if(tx.status != 'UNCONFIRMED'
+                && block.transactions.filter(tx => tx.transactionHash == tx.hash).length == 1) {
+                tx.blockNumber = block.number;
+                tx.status='UNCONFIRMED';
+                this.txsSubject.next({ transactions: this.transactions });
+              }
+              if(tx.status=='UNCONFIRMED' && (block.number - tx.blockNumber >= 3)) {
+                tx.status='COMPLETED';
+                this.txsSubject.next({ transactions: this.transactions });
+              }
+            });
+          });
+          observer.next(value);
+        }
+      });
+    });
+
+    return Observable.concat(
+      Observable.fromPromise(this.web3.eth.getBlock('latest')),
+      latestBlockEmitterObs);
+  }
+
+  private buildPendingBlockObs(): Observable<any>  {
+    return Observable.interval(1000).flatMap(i => 
+      Observable.fromPromise(
+        this.web3.eth.getBlock('pending').then(block => {
+          this.transactions.map(tx => {
+            if(tx.status!='PENDING' 
+              && block.transactions.filter(tx => tx.transactionHash == tx.hash).length == 1) {
+              tx.status='PENDING';
+              this.txsSubject.next({ transactions: this.transactions });
+            }
+          });
+          return block;
+        })));
+  }
+
+  private buildTxsSubject(): BehaviorSubject<any> {
+    return new BehaviorSubject<any>({
+      transactions: this.transactions
+    });
   }
 
   constructor() {
     console.log("Starting web3j...");
     this.web3 = new Web3(new Web3.providers.WebsocketProvider("ws://163.172.104.223:1004"));
 
-    let latestBlockEmitterObs = Observable.create(observer => {
-      this.web3.eth.subscribe('newBlockHeaders', function (error, value) {
-        if (error) {
-          observer.error(error);
-        } else {
-          observer.next(value);
-        }
-      });
-    });
-
-    this.latestBlockObs = Observable.concat(
-      Observable.fromPromise(this.web3.eth.getBlock('latest')),
-      latestBlockEmitterObs);
+    this.latestBlockObs = this.buildLatestBlockObs();
+    this.pendingBlockObs = this.buildPendingBlockObs();
+    this.txsSubject = this.buildTxsSubject();
   }
 }

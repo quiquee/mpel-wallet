@@ -13,19 +13,27 @@ export class Account {
   type: AccountType;
 
   internal: any;
-
   portfolio: { currency: Currency, balance: number, transfers: Transfer[] }[];
+
+  canSend(currency): boolean {
+    return this.pKey 
+      && this.portfolio.filter(item => {
+        return item.currency == currency && item.balance > 0;
+      }).length > 0;
+  };
+
+  constructor(name: string, pubKey: string, pKey: string) {
+    this.name = name;
+    this.pubKey = pubKey;
+    this.pKey = pKey;
+  }
   
   public static publicAccount(name: string, pubKey: string) : Account {
-    return { name: name, pubKey: pubKey, pKey: null, internal: null,
-      type: AccountType.PUBLIC,
-      portfolio: [] };
+    return new Account(name, pubKey, null);
   }
 
   public static hotAccount(name: string, pubKey: string, pKey: string) : Account {
-    return { name: name, pubKey: pubKey, pKey: pKey, internal: null,
-      type: AccountType.HOT, 
-      portfolio: [] };
+    return new Account(name, pubKey, pKey);
   }
 
   static coldAccount() {
@@ -39,5 +47,4 @@ export class Account {
     // GUI must shows unlocking status progression
     throw "Not yet implemented !";
   }
-
 }

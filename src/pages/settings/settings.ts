@@ -6,6 +6,7 @@ import {NavController, NavParams} from 'ionic-angular';
   templateUrl: 'settings.html',
 })
 export class SettingsPage {
+  public confirmations: number = 3;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }

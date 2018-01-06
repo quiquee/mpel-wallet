@@ -3,5 +3,15 @@
 </ion-header>
 
 <ion-content padding>
-  Settings
+  <ion-list>
+    <ion-item no-lines>
+      <ion-label>Confirmations</ion-label>
+      <ion-badge item-end>{{confirmations}}</ion-badge>
+    </ion-item>
+    <ion-item>
+      <ion-range min="1" max="12" step="1" snaps="true" [(ngModel)]="confirmations"
+        color="primary">
+      </ion-range>
+    </ion-item>
+  </ion-list>
 </ion-content>

@@ -15,15 +15,17 @@ import {CurrencyProvider} from '../providers/currency';
 import {Web3Provider} from '../providers/web3';
 import {StatusProvider} from '../providers/status';
 import {HttpClientModule} from "@angular/common/http";
-import {DetailsPage} from "../pages/details/details";
+import {PortfolioDetailsPage} from "../pages/portfolio-details/portfolio-details";
+import {AccountsDetailsPage} from "../pages/accounts-details/accounts-details";
 import {HeaderComponent} from '../components/header/header';
 
 @NgModule({
   declarations: [
     AccountsPage,
+    AccountsDetailsPage,
     MyApp,
     PortfolioPage,
-    DetailsPage,
+    PortfolioDetailsPage,
     SettingsPage,
     TabsPage,
     TransferPage,
@@ -37,9 +39,10 @@ import {HeaderComponent} from '../components/header/header';
   bootstrap: [IonicApp],
   entryComponents: [
     AccountsPage,
+    AccountsDetailsPage,
     MyApp,
     PortfolioPage,
-    DetailsPage,
+    PortfolioDetailsPage,
     TransferPage,
     SettingsPage,
     TabsPage,

@@ -1,0 +1,38 @@
+<ion-header>
+  <header>{{ token.currency.name }}</header>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <b>Balance</b>
+      <button item-end ion-button icon-end solid
+        *ngIf="activeAccount.canSend(token.currency)"
+        (click)="startTransfer(token, $event)">
+        Send
+        <ion-icon name="card"></ion-icon>
+      </button>
+    </ion-item>
+    <ion-item>
+      <ion-label item-begin>{{token.balance}} {{token.currency.symbol}}</ion-label>
+      <ion-label item-end *ngIf="token.currency.supply">
+        <b>Supply:</b>{{formatProvider.formatAmount(token.currency.supply) }} {{token.currency.symbol}}
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-item>
+      <b>History</b>
+    </ion-item>
+    <ion-item *ngFor="let transfer of history">
+      <ion-label item-begin color="primary" *ngIf="transfer.to">
+        + {{ transfer.amount }} {{token.currency.symbol}}
+      </ion-label>
+      <ion-label item-end *ngIf="transfer.to">to {{ transfer.to }}</ion-label>
+      <ion-label item-begin color="danger" *ngIf="transfer.from">
+        - {{ transfer.amount }} {{token.currency.symbol}}
+      </ion-label>
+      <ion-label item-end *ngIf="transfer.from">from {{ transfer.from }}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
