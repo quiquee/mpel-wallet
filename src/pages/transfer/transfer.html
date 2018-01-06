@@ -23,7 +23,7 @@
         <ion-select name="selectedAccount" [(ngModel)]="selectedAccount"
             placeholder="Select a Beneficiary" required>
           <ion-option *ngFor="let account of accountProvider.otherAccounts()"
-            [value]="account">{{ account.name }}</ion-option>
+            [value]="account.address">{{ account.name }}</ion-option>
         </ion-select>
       </ion-item>
     </ion-list>

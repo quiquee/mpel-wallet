@@ -15,7 +15,7 @@ export class TransferPage {
   public selectedToken: { currency: Currency, balance: number };
   public selectedCurrencySymbol: string;
   public selectedAmount: number;
-  public selectedAccount: Account;
+  public selectedAccount: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public currencyProvider: CurrencyProvider, public accountProvider: AccountProvider) {
@@ -35,7 +35,7 @@ export class TransferPage {
     let token =
       this.activeAccount.portfolio.filter(element => 
         element.currency.symbol == this.selectedCurrencySymbol
-      )[0];
+      )[0]; 
 
     token.currency.transfer(
       this.activeAccount,

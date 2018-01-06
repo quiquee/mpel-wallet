@@ -14,6 +14,14 @@ export class AccountsPage {
 
   }
 
+  createAccount() {
+    this.accountProvider.createAccount();
+  }
+
+  addAccount() {
+    this.accountProvider.addAccount();
+  }
+
   goToDetailsPage(event, account) {
     console.log(event);
     event.stopPropagation();

@@ -6,8 +6,8 @@
 <ion-content padding>
   <ion-list>
     <ion-item no-lines>
-      <button ion-button>New</button>
-      <button ion-button>Import</button>
+      <button ion-button (click)="createAccount()">New</button>
+      <button ion-button (click)="addAccount()">Add</button>
       <button item-end ion-button color="warn">Edit</button>
     </ion-item>
     <button ion-item

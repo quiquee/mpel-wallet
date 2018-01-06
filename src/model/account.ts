@@ -8,7 +8,7 @@ export enum AccountType {
 
 export class Account { 
   name: string;
-  pubKey: string;
+  address: string;
   pKey: string;
   type: AccountType;
 
@@ -22,18 +22,18 @@ export class Account {
       }).length > 0;
   };
 
-  constructor(name: string, pubKey: string, pKey: string) {
+  constructor(name: string, address: string, pKey: string) {
     this.name = name;
-    this.pubKey = pubKey;
+    this.address = address;
     this.pKey = pKey;
   }
   
-  public static publicAccount(name: string, pubKey: string) : Account {
-    return new Account(name, pubKey, null);
+  public static publicAccount(name: string, address: string) : Account {
+    return new Account(name, address, null);
   }
 
-  public static hotAccount(name: string, pubKey: string, pKey: string) : Account {
-    return new Account(name, pubKey, pKey);
+  public static hotAccount(name: string, address: string, pKey: string) : Account {
+    return new Account(name, address, pKey);
   }
 
   static coldAccount() {

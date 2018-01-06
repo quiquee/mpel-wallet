@@ -12,5 +12,5 @@ export class Currency {
   image: string;
   history: Array<any>;
   balanceOf(account: Account): Observable<number> { return null; };
-  transfer(sender: Account, beneficiary: Account, amount: number): Observable<Transfer> { return null; }
+  transfer(sender: Account, beneficiaryAddress: string, amount: number): Observable<Transfer> { return null; }
 }

@@ -31,12 +31,12 @@ export class CurrencyProvider {
           address: null, contract: null, supply: null, symbol: 'ETH', image: 'ETH',
           history: [],
           balanceOf: (account: Account) => Observable.fromPromise(Promise.resolve(account)
-            .then(account => this.web3Provider.getBalance(account.pubKey)
+            .then(account => this.web3Provider.getBalance(account.address)
               .then(balance => this.web3Provider.getUtils().fromWei(balance, 'ether')))),
-          transfer: function(sender: Account, beneficiary: Account, amount: number) {
+          transfer: function(sender: Account, beneficiaryAddress: string, amount: number) {
             let value = web3Provider.getUtils().toWei(amount, 'ether');
             return web3Provider.sendSignedTransaction(
-              sender.pubKey, sender.pKey, beneficiary.pubKey, value, null);
+              sender.address, sender.pKey, beneficiaryAddress, value, null);
           }
         })
       ];
@@ -62,14 +62,14 @@ export class CurrencyProvider {
             history: [],
             balanceOf: (account: Account) =>
               Observable.fromPromise(Promise.resolve(account)
-                .then(account => contract.methods.balanceOf(account.pubKey).call())
+                .then(account => contract.methods.balanceOf(account.address).call())
                 .then((balance: number) => (balance) ? balance / 100 : 0)),
-            transfer: function(sender: Account, beneficiary: Account, amount: number) {
-              console.log(amount + ' ' + this.symbol + ' to ' + beneficiary.name);
+            transfer: function(sender: Account, beneficiaryAddress: string, amount: number) {
+              console.log(amount + ' ' + this.symbol + ' to ' + beneficiaryAddress);
               let cents = amount * (10 ** this.decimal);
-              let contractData = methods.transfer(beneficiary.pubKey, cents).encodeABI();
+              let contractData = methods.transfer(beneficiaryAddress, cents).encodeABI();
               return web3Provider.sendSignedTransaction(
-                sender.pubKey, sender.pKey, address, null, contractData);
+                sender.address, sender.pKey, address, null, contractData);
             }
           });
         });
