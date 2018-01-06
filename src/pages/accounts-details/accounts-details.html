@@ -3,5 +3,20 @@
 </ion-header>
 
 <ion-content padding>
-  Account details
+  <ion-card *ngIf="account.pubKey">
+    <ion-segment [(ngModel)]="showKey" *ngIf="account.pKey">
+      <ion-segment-button value="pubKey">PubKey</ion-segment-button>
+      <ion-segment-button value="pKey">PKey</ion-segment-button>
+    </ion-segment>
+    <div [ngSwitch]="showKey" class="showKey">
+      <ion-list no-lines *ngSwitchCase="'pubKey'">
+        <ngx-qrcode [qrc-value]="account.pubKey" qrc-errorCorrectionLevel="L" qrc-version="6"></ngx-qrcode>
+        <ion-item text-center class="key">{{ account.pubKey }}</ion-item>
+      </ion-list>
+      <ion-list no-lines *ngSwitchCase="'pKey'">
+        <ngx-qrcode [qrc-value]="account.pKey" qrc-errorCorrectionLevel="L" qrc-version="6"></ngx-qrcode>
+        <ion-item text-center class="key">{{ account.pKey }}</ion-item>
+      </ion-list>
+    </div>
+  </ion-card>
 </ion-content>

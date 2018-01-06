@@ -4,7 +4,6 @@ const Web3 = require("web3");
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Buffer } from 'buffer';
 import 'rxjs/Rx';
 
 @Injectable()

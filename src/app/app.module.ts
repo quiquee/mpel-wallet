@@ -13,11 +13,12 @@ import {AccountProvider} from '../providers/account';
 import {FormatProvider} from '../providers/format';
 import {CurrencyProvider} from '../providers/currency';
 import {Web3Provider} from '../providers/web3';
-import {StatusProvider} from '../providers/status';
 import {HttpClientModule} from "@angular/common/http";
 import {PortfolioDetailsPage} from "../pages/portfolio-details/portfolio-details";
 import {AccountsDetailsPage} from "../pages/accounts-details/accounts-details";
 import {HeaderComponent} from '../components/header/header';
+import {NgxQRCodeModule} from 'ngx-qrcode3';
+import {BarcodeScanner} from '@ionic-native/barcode-scanner';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import {HeaderComponent} from '../components/header/header';
   imports: [
     BrowserModule,
     HttpClientModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    NgxQRCodeModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -55,8 +57,8 @@ import {HeaderComponent} from '../components/header/header';
     AccountProvider,
     FormatProvider,
     CurrencyProvider,
-    StatusProvider,
-    Web3Provider
+    Web3Provider,
+    BarcodeScanner
   ]
 })
 export class AppModule {

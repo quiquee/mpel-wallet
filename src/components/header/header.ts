@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { StatusProvider } from '../../providers/status';
 import { Web3Provider } from '../../providers/web3';
-import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'header',
@@ -13,8 +11,7 @@ export class HeaderComponent {
   public pendingTxs = 0;
   public unconfirmedTxs = 0;
 
-  constructor(private statusProvider: StatusProvider,
-    private web3Provider: Web3Provider) {
+  constructor(private web3Provider: Web3Provider) {
       this.web3Provider.blockData().map(data => {
         this.blockNumber = data.number;
       }).subscribe();
