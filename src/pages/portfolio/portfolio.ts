@@ -5,7 +5,6 @@ import { TransferPage } from "../transfer/transfer";
 import { AccountProvider } from "../../providers/account";
 import { CurrencyProvider } from "../../providers/currency";
 import { FormatProvider } from '../../providers/format';
-import { Currency } from '../../model/currency';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
@@ -23,7 +22,6 @@ export class PortfolioPage {
   }
 
   activeAccountBalance(token) {
-    let activeAccount = this.accountProvider.activeAccount();
     return this.formatProvider.formatAmount(token.balance) + ' ' + token.currency.symbol;
   }
 
@@ -33,7 +31,6 @@ export class PortfolioPage {
   }
 
   goToDetailsPage(token) {
-    console.log(token);
     this.navCtrl.push(PortfolioDetailsPage, { token });
   }
 

@@ -12,6 +12,7 @@ import {SettingsPage} from "../pages/settings/settings";
 import {AccountProvider} from '../providers/account';
 import {FormatProvider} from '../providers/format';
 import {CurrencyProvider} from '../providers/currency';
+import {TransactionProvider} from '../providers/transaction';
 import {Web3Provider} from '../providers/web3';
 import {HttpClientModule} from "@angular/common/http";
 import {PortfolioDetailsPage} from "../pages/portfolio-details/portfolio-details";
@@ -58,7 +59,8 @@ import {BarcodeScanner} from '@ionic-native/barcode-scanner';
     FormatProvider,
     CurrencyProvider,
     Web3Provider,
-    BarcodeScanner
+    BarcodeScanner,
+    TransactionProvider
   ]
 })
 export class AppModule {

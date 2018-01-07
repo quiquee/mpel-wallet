@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Account } from '../model/account';
 import { Web3Provider } from './web3';
+import { TransactionProvider } from './transaction';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 @Injectable()
@@ -19,45 +20,45 @@ export class AccountProvider {
 
   constructor(private web3Provider: Web3Provider,
     private barcodeScanner: BarcodeScanner) {
-    console.log(this.active.address.length);
-    console.log(this.active.pKey.length);
   }
 
   public activeAccount(): Account {
     return this.active;
   }
 
-  public createAccount(): Account {
-    let internal = this.web3Provider.getAccounts().create();
-    let name = 'Hot Account';
-    let id = this.accounts.filter(account => account.name.startsWith(name)).length;
-    if (id > 0) name += ' - ' + (id + 1);
-    let account = Account.hotAccount(name, internal.address, internal.privateKey);
-    account.internal = internal;
+  private buildAccount(key): Account {
+    let account = null;
+    if (!key || key.length == Account.PRIVATE_KEY_LENGTH) {
+      let internal = null;
+      if(key) {
+        internal = this.web3Provider.getAccounts().privateKeyToAccount(key);
+      } else {
+        internal = this.web3Provider.getAccounts().create();
+      }
+      let name = 'Hot Account';
+      let id = this.accounts.filter(account => account.name.startsWith(name)).length;
+      if (id > 0) name += ' - ' + (id + 1);
+      account = Account.hotAccount(name, internal.address, internal.privateKey);
+      account.internal = internal;
+    } else if(key.length == Account.PUBLIC_KEY_LENGTH) {
+      let name = 'Public Account';
+      let id = this.accounts.filter(account => account.name.startsWith(name)).length;
+      if (id > 0) name += ' - ' + (id + 1);
+      account = Account.publicAccount(name, key);
+    } else {
+      throw 'Invalid key !';
+    }
     this.accounts.push(account);
     return account;
   }
 
+  public createAccount(): Account {
+    return this.buildAccount(null);
+  }
+
   public addAccount(): Promise<Account> {
     return this.barcodeScanner.scan().then(barcodeData => {
-      let account = null;
-      if (barcodeData.text.length == 66) {
-        let internal = this.web3Provider.getAccounts().privateKeyToAccount(barcodeData.text);
-        let name = 'Hot Account';
-        let id = this.accounts.filter(account => account.name.startsWith(name)).length;
-        if (id > 0) name += ' - ' + (id + 1);
-        account = Account.hotAccount(name, internal.address, internal.privateKey);
-        account.internal = internal;
-      } else if(barcodeData.text.length == 42) {
-        let name = 'Public Account';
-        let id = this.accounts.filter(account => account.name.startsWith(name)).length;
-        if (id > 0) name += ' - ' + (id + 1);
-        account = Account.publicAccount(name, barcodeData.text);
-      } else {
-        throw 'Invalid key !';
-      }
-      this.accounts.push(account);
-      return account;
+      return this.buildAccount(barcodeData.text);
     });
   }
 
@@ -73,6 +74,19 @@ export class AccountProvider {
 
   public allAccounts(): Array<Account> {
     return this.accounts;
+  }
+
+  public getAccount(address: string): Account {
+    let result: Account = null;
+    this.accounts.forEach(account => {
+      if(account.address == address) { result = account; }
+    });
+    return result;
+  }
+
+  public getAccountName(address: string): string {
+    let account = this.getAccount(address);
+    return (account) ? account.name : address;
   }
 
   public setActive(account): void {

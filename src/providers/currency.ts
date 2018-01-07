@@ -6,7 +6,6 @@ import { Injectable } from '@angular/core';
 import { Web3Provider } from './web3';
 import { Account } from '../model/account';
 import { Currency } from '../model/currency';
-import { Transfer } from '../model/transfer';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 
@@ -29,7 +28,6 @@ export class CurrencyProvider {
         Promise.resolve({
           name: 'Ethereum', decimal: null,
           address: null, contract: null, supply: null, symbol: 'ETH', image: 'ETH',
-          history: [],
           balanceOf: (account: Account) => Observable.fromPromise(Promise.resolve(account)
             .then(account => this.web3Provider.getBalance(account.address)
               .then(balance => this.web3Provider.getUtils().fromWei(balance, 'ether')))),
@@ -59,7 +57,6 @@ export class CurrencyProvider {
             supply: details[2],
             symbol: details[1],
             image: 'MTPELERIN',
-            history: [],
             balanceOf: (account: Account) =>
               Observable.fromPromise(Promise.resolve(account)
                 .then(account => contract.methods.balanceOf(account.address).call())

@@ -1,19 +1,22 @@
 
 import { Currency } from './currency';
-import { Transfer } from './transfer';
+import { Transaction } from './transaction';
 
 export enum AccountType {
   PUBLIC, MULTISIG, COLD, HOT
 }
 
 export class Account { 
+  static PRIVATE_KEY_LENGTH:number = 66;
+  static PUBLIC_KEY_LENGTH:number = 42;
+
   name: string;
   address: string;
   pKey: string;
   type: AccountType;
 
   internal: any;
-  portfolio: { currency: Currency, balance: number, transfers: Transfer[] }[];
+  portfolio: { currency: Currency, balance: number }[];
 
   canSend(currency): boolean {
     return this.pKey 
