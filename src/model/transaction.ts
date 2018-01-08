@@ -1,5 +1,4 @@
 import { Account } from './account';
-import { Currency } from './currency';
 
 export class Transaction {
   hash: string

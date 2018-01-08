@@ -3,15 +3,22 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list>
-    <ion-item no-lines>
-      <ion-label>Confirmations</ion-label>
-      <ion-badge item-end>{{confirmations}}</ion-badge>
+  <ion-list no-lines>
+    <ion-item>
+      <ion-label item-start>
+        Confirmations
+        <ion-badge item-end>{{confirmations}}</ion-badge>
+      </ion-label>
+      <ion-range min="1" max="12" step="1" snaps="true" [(ngModel)]="confirmations" color="primary">
+      </ion-range>
     </ion-item>
     <ion-item>
-      <ion-range min="1" max="12" step="1" snaps="true" [(ngModel)]="confirmations"
-        color="primary">
-      </ion-range>
+      <ion-label>Node websocket url:</ion-label>
+      <ion-input type="url" placeholder="Node URL" value="163.172.104.223:1002">
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <button ion-button color="danger" block (click)="clearData()">Clear All Data !</button>
     </ion-item>
   </ion-list>
 </ion-content>

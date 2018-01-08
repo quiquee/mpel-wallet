@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
-import {AccountProvider} from '../../providers/account';
 import { FormatProvider } from '../../providers/format';
 import { TransferPage } from "../transfer/transfer";
 import { Account } from '../../model/account';
@@ -15,8 +14,7 @@ export class AccountsDetailsPage {
 
   scannedCode = null;
 
-  constructor(private accountProvider: AccountProvider, 
-    public formatProvider: FormatProvider,
+  constructor(public formatProvider: FormatProvider,
     public navCtrl: NavController, public navParams: NavParams) {
   }
 

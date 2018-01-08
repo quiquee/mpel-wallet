@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
+import {ProfileProvider} from '../../providers/profile';
 
 @Component({
   selector: 'page-settings',
@@ -8,7 +9,12 @@ import {NavController, NavParams} from 'ionic-angular';
 export class SettingsPage {
   public confirmations: number = 3;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private profileProvider: ProfileProvider,
+    public navCtrl: NavController, public navParams: NavParams) {
+  }
+
+  clearData() {
+    this.profileProvider.clearProfile();
   }
 
   ionViewDidLoad() {

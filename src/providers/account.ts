@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Account } from '../model/account';
 import { Web3Provider } from './web3';
-import { TransactionProvider } from './transaction';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 @Injectable()

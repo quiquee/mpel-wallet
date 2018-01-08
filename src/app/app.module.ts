@@ -5,6 +5,7 @@ import {MyApp} from './app.component';
 import {AccountsPage} from "../pages/accounts/accounts";
 import {PortfolioPage} from '../pages/portfolio/portfolio';
 import {TabsPage} from '../pages/tabs/tabs';
+import {IntroPage} from '../pages/intro/intro';
 import {TransferPage} from '../pages/transfer/transfer';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
@@ -14,6 +15,8 @@ import {FormatProvider} from '../providers/format';
 import {CurrencyProvider} from '../providers/currency';
 import {TransactionProvider} from '../providers/transaction';
 import {Web3Provider} from '../providers/web3';
+import {ProfileProvider} from '../providers/profile';
+import {IonicStorageModule} from '@ionic/storage';
 import {HttpClientModule} from "@angular/common/http";
 import {PortfolioDetailsPage} from "../pages/portfolio-details/portfolio-details";
 import {AccountsDetailsPage} from "../pages/accounts-details/accounts-details";
@@ -30,6 +33,7 @@ import {BarcodeScanner} from '@ionic-native/barcode-scanner';
     PortfolioDetailsPage,
     SettingsPage,
     TabsPage,
+    IntroPage,
     TransferPage,
     HeaderComponent
   ],
@@ -37,6 +41,7 @@ import {BarcodeScanner} from '@ionic-native/barcode-scanner';
     BrowserModule,
     HttpClientModule,
     IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot(),
     NgxQRCodeModule
   ],
   bootstrap: [IonicApp],
@@ -49,6 +54,7 @@ import {BarcodeScanner} from '@ionic-native/barcode-scanner';
     TransferPage,
     SettingsPage,
     TabsPage,
+    IntroPage,
     TransferPage
   ],
   providers: [
@@ -60,7 +66,8 @@ import {BarcodeScanner} from '@ionic-native/barcode-scanner';
     CurrencyProvider,
     Web3Provider,
     BarcodeScanner,
-    TransactionProvider
+    TransactionProvider,
+    ProfileProvider,
   ]
 })
 export class AppModule {

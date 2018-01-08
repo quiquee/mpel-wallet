@@ -1,0 +1,113 @@
+<ion-slides pager paginationType="progress">
+
+  <ion-slide>
+    <ion-header>
+      <ion-navbar>
+        <ion-title>MtPelerin Wallet</ion-title>
+      </ion-navbar>
+    </ion-header>
+    <h2>Your new crypto wallet is awaiting you!</h2>
+    <p>It's open source and full decentralized.</p>
+    <p>Let's customize it in few clicks !</p>
+  </ion-slide>
+
+  <ion-slide>
+    <ion-header>
+      <header>How it works ?</header>
+    </ion-header>
+    <h2>It is using blockchain !</h2>
+    <p>20000 ---> 20001 ---> 20003</p>
+    <p>A new block is created every few seconds.</p>
+    <p>Each blocks may contains a certain number of transactions.</p>
+    <p>To make a transaction, a user must digitaly signed using cryptographic keys !</p>
+  </ion-slide>
+
+  <ion-slide>
+    <ion-header>
+      <header>Account creation</header>
+    </ion-header>
+    <p>A wallet is made of multiple accounts.</p>
+    <p>An account itself is composed of a public address and a private key.</p>
+    <p>In order to use your wallet, you will need at least one private key !</p>
+    <h2>If you don't have one, you can create one.</h2>
+    <h2>Otherwise, you may use a QR code to import one.</h2>
+    <button ion-button solid icon-left>
+      <ion-icon name="barcode"></ion-icon>Create
+    </button>
+    <button ion-button solid icon-left>
+      <ion-icon name="qr-scanner"></ion-icon>Import
+    </button>
+  </ion-slide>
+
+  <!--ion-slide>
+    <h2>Backup your account</h2>
+
+    <p>We've created the following account for you:</p>
+
+    <p>Unfortunately, no one else will be able to retrieve your account !</p>
+    <p>It is therefore
+      <span color="danger">critical to backup</span> this account !</p>
+    <p>Consider saving it in a place safe enougth
+      but it is also important that you will still remember it :
+    </p>
+    <ion-list>
+      <ion-item>
+        <button ion-button>Email</button>
+      </ion-item>
+      <ion-item>
+        <button ion-button>MMS</button>
+      </ion-item>
+    </ion-list>
+  </ion-slide-->
+
+  <!--ion-slide>
+    <h2>Choose a node</h2>
+
+    <p>You are free to use whatever node you want.</p>
+    <p>We have selected one for you:</p>
+    <ion-input type="url" placeholder="Node URL" 
+      value="ws://163.172.104.223:1002" text-center></ion-input>
+    <p>You may still change it later at any time</p>
+  </ion-slide-->
+
+  <!--ion-slide>
+    <h2>More tokens !</h2>
+
+    <p>You can import an extended token directory.</p>
+    <p>If it's not already done, you should visit Mt Pelerin's website
+      at http://163.172.104.223:1000/ and scan it from there</p>
+    <button ion-button solid icon-left>
+      <ion-icon name="qr-scanner"></ion-icon>Scan
+    </button>
+  
+    <p>Thank you for choosing MtPelerin</p>
+  </ion-slide-->
+
+  <ion-slide>
+    <ion-header>
+      <header>Public addresses</header>
+    </ion-header>
+
+    <p>The wallet allow you also to track public addresss</p>
+    <p>As you don't hold the private key, you will not be able to spend anything</p>
+    <h2>Few public address that you may have:</h2>
+
+    <p>Thank you for choosing MtPelerin</p>
+  </ion-slide>
+
+  <!--ion-slide>
+    <h2>Your first transaction</h2>
+
+    <p>To enjoy your wallet we would like to give you a quick start now.</p>
+    <p>Feel free to join Telegram and request some tokens using your PKey</p>
+    <p>We have send you few tokens... </p>
+  </ion-slide-->
+
+  <ion-slide>
+    <ion-header>
+      <header>Setup completed</header>
+    </ion-header>
+    <h2>Your wallet has been configured</h2>
+    <button ion-button (click)="closeIntro()">Open And Enjoy !</button>
+  </ion-slide>
+</ion-slides>

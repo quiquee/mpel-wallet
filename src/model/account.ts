@@ -1,6 +1,5 @@
 
 import { Currency } from './currency';
-import { Transaction } from './transaction';
 
 export enum AccountType {
   PUBLIC, MULTISIG, COLD, HOT

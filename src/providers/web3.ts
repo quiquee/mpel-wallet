@@ -4,7 +4,6 @@ const Web3 = require("web3");
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import 'rxjs/Rx';
 
 @Injectable()
 export class Web3Provider {
